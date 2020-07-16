@@ -1,5 +1,6 @@
 import React from 'react';
 import { v4 as uuid } from "uuid";
+import { Button } from 'reactstrap';
 
 const MAX = 100;
 
@@ -63,9 +64,10 @@ class Note extends React.Component {
                 <div>
                     <label>Caracteres restantes: {this.state.totalChars} / {MAX} </label>
                 </div>
-                <input type="button"
-                    value="Agregar"
-                    onClick={() => this.addNewNote(onAddNewNote)}></input>
+                <Button color="primary" onClick={() => this.addNewNote(onAddNewNote)}>
+                    Agregar
+                </Button>
+                    
             </div>
         );
     }
