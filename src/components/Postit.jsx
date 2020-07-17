@@ -1,26 +1,40 @@
 import React from 'react';
-import { Toast, ToastBody, ToastHeader, Button, Spinner } from 'reactstrap';
+import { Toast, ToastBody, ToastHeader, Spinner } from 'reactstrap';
 
-const Postit = ({ onRemove, input, id, markAsDone, state }) => (
+const Postit = ({ onRemove, input, id, markAsDone }) => {
+    const { task, state } = JSON.parse(input);
+    return (
 
-    <Toast>
-        <Button onClick={() => RemoveMe(onRemove, id)}>Dismiss</Button>
-        <Button onClick={() => markAsComplete(markAsDone, id)}>Done</Button>
+        <Toast>
+            <input
+                type="button"
+                value="Dismiss"
+                className="btn btn-danger"
+                onClick={() => RemoveMe(onRemove, id)} />
 
-        <ToastHeader
-            icon={<Spinner size="sm" />}
-        >
-            Reminder
+            <input
+                type="button"
+                value="Done"
+                className="btn btn-secondary"
+                onClick={() => markAsComplete(markAsDone, id)} />
+
+            <ToastHeader
+                icon={state !== "done" ?
+                    <Spinner size="sm" /> :
+                    "success"}
+            >
+                Reminder
         </ToastHeader>
-        <ToastBody>{input}</ToastBody>
-    </Toast >)
+            <ToastBody>{task}</ToastBody>
+        </Toast >)
+}
 
 function RemoveMe(callback, aKey) {
     callback(aKey);
 }
 
 function markAsComplete(callback, id) {
-    // TBD callback(id);
+    callback(id);
 }
 
 export default Postit;

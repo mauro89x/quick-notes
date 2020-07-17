@@ -19,14 +19,12 @@ function App() {
 
   return (
     <div className="App">
-      <Note onAddNewNote={addNoteToLocalStorage}>
-      </Note>
+      <Note onAddNewNote={addNoteToLocalStorage} />
       <div>
         {
           Object.keys(currentStorage).map(
             key => <Postit
               key={key}
-
               id={key}
               input={currentStorage[key]}
               onRemove={removeNote}
@@ -36,7 +34,11 @@ function App() {
           )
         }
       </div>
-      <Button onClick={() => clearLocalStorage()}>Clean</Button>
+      <Button
+        className="btn btn-danger"
+        onClick={() => clearLocalStorage()}>
+        Clean
+        </Button>
     </div>
   );
 }
@@ -47,8 +49,8 @@ function clearLocalStorage() {
 }
 
 function addNoteToLocalStorage(note) {
-  const { id, input } = note;
-  localStorage.setItem(id, input);
+  const { id, input, state } = note;
+  localStorage.setItem(id, JSON.stringify({ task: input, state }));
   window.dispatchEvent(new Event('storage'));
 }
 
@@ -58,10 +60,9 @@ function removeNote(anId) {
 }
 
 function markTaskDone(anId) {
-  const item = localStorage.getItem(anId);
-  
-  item.done = true;
-  localStorage.setItem(anId, item);
+  const { task } = JSON.parse(localStorage.getItem(anId));
+  const state = "done";
+  localStorage.setItem(anId, JSON.stringify({ task, state }));
   window.dispatchEvent(new Event('storage'));
 }
 
