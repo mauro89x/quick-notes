@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { v4 as uuid } from "uuid";
-import { Button } from 'reactstrap';
 
 const MAX = 100;
 
-class Note extends React.Component {
+class Note extends Component {
 
     constructor(props) {
         super(props);
@@ -27,14 +26,14 @@ class Note extends React.Component {
 
         if (evt.target.value.length === 0) {
             this.resetTextArea();
+
         } else {
+
             if (value.length <= MAX) {
                 this.setState({
                     noteInput: value,
                     totalChars: (MAX - value.length)
                 });
-            } else {
-                alert("Dude it's full!")
             }
         }
     }
@@ -42,8 +41,10 @@ class Note extends React.Component {
     addNewNote(callback) {
         const note = {
             input: this.state.noteInput,
-            id: uuid()
+            id: uuid(),
+            state: "Pending"
         }
+
         if (note) {
             callback(note);
             this.resetTextArea();
@@ -52,7 +53,6 @@ class Note extends React.Component {
 
     render() {
         const { onAddNewNote } = this.props;
-
         return (
             <div>
                 <textarea
@@ -62,12 +62,15 @@ class Note extends React.Component {
                 >
                 </textarea>
                 <div>
-                    <label>Caracteres restantes: {this.state.totalChars} / {MAX} </label>
+                    <label>Remaining letters: {this.state.totalChars} / {MAX} </label>
                 </div>
-                <Button color="primary" onClick={() => this.addNewNote(onAddNewNote)}>
-                    Agregar
-                </Button>
-                    
+                <input 
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => this.addNewNote(onAddNewNote)}
+                    disabled={this.state.noteInput.length === 0 ? "disabled" : ""}
+                    value="Add"
+                />
             </div>
         );
     }
