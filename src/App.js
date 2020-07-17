@@ -19,27 +19,49 @@ function App() {
 
   return (
     <div className="App">
-      <Note onAddNewNote={AddNoteToLocalStorage}></Note>
+      <Note onAddNewNote={addNoteToLocalStorage}>
+      </Note>
       <div>
         {
           Object.keys(currentStorage).map(
-            key => <Postit key={key} input={currentStorage[key]}></Postit>
+            key => <Postit
+              key={key}
+
+              id={key}
+              input={currentStorage[key]}
+              onRemove={removeNote}
+              markAsDone={markTaskDone}
+            >
+            </Postit>
           )
         }
       </div>
-      <Button onClick={() => ClearLocalStorage()}>Clean</Button>
+      <Button onClick={() => clearLocalStorage()}>Clean</Button>
     </div>
   );
 }
 
-function ClearLocalStorage() {
+function clearLocalStorage() {
   localStorage.clear();
   window.dispatchEvent(new Event('storage'));
 }
 
-function AddNoteToLocalStorage(note) {
+function addNoteToLocalStorage(note) {
   const { id, input } = note;
   localStorage.setItem(id, input);
+  window.dispatchEvent(new Event('storage'));
+}
+
+function removeNote(anId) {
+  localStorage.removeItem(anId);
+  window.dispatchEvent(new Event('storage'));
+}
+
+function markTaskDone(anId) {
+  const item = localStorage.getItem(anId);
+  
+  item.done = true;
+  localStorage.setItem(anId, item);
   window.dispatchEvent(new Event('storage'));
 }
 
