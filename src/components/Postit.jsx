@@ -1,10 +1,26 @@
 import React from 'react';
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Toast, ToastBody, ToastHeader, Button, Spinner } from 'reactstrap';
 
-const Postit = props => (
+const Postit = ({ onRemove, input, id, markAsDone, state }) => (
+
     <Toast>
-        <ToastHeader>Recordatorio</ToastHeader>
-        <ToastBody>{props.input}</ToastBody>
-    </Toast>)
+        <Button onClick={() => RemoveMe(onRemove, id)}>Dismiss</Button>
+        <Button onClick={() => markAsComplete(markAsDone, id)}>Done</Button>
+
+        <ToastHeader
+            icon={<Spinner size="sm" />}
+        >
+            Reminder
+        </ToastHeader>
+        <ToastBody>{input}</ToastBody>
+    </Toast >)
+
+function RemoveMe(callback, aKey) {
+    callback(aKey);
+}
+
+function markAsComplete(callback, id) {
+    // TBD callback(id);
+}
 
 export default Postit;
