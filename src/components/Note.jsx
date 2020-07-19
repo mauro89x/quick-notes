@@ -57,15 +57,17 @@ class Note extends Component {
             <div>
                 <textarea
                     className="document_view"
+                    aria-label="textarea"
                     onChange={evt => this.updateChars(evt)}
                     value={this.state.noteInput}
                 >
                 </textarea>
                 <div>
-                    <label>Remaining letters: {this.state.totalChars} / {MAX} </label>
+                    <label title="message">Remaining letters: {this.state.totalChars} / {MAX} </label>
                 </div>
                 <input 
                     type="button"
+                    aria-label="Add Note"
                     className="btn btn-primary"
                     onClick={() => this.addNewNote(onAddNewNote)}
                     disabled={this.state.noteInput.length === 0 ? "disabled" : ""}
